@@ -144,7 +144,7 @@ public partial class MainForm : Form
                     if (oldValue != nowValue)
                     {
                         oldValue = nowValue;
-                        reporter.Report(ProgressInfo.New("書き込み中です。しばらくお待ちください。", nowPercent));
+                        reporter.Report(ProgressInfo.New("Writing. Please wait.", nowPercent));
                     }
                 })
             .ConfigureAwait(true);
@@ -195,7 +195,7 @@ public partial class MainForm : Form
         using var dialog = new SaveFileDialog();
 #pragma warning disable CA1303 // ローカライズされるパラメーターとしてリテラルを渡さない
         dialog.Filter = @"text(*.txt)|*.txt";
-        dialog.Title = @"ダミーファイルを選択してください。";
+        dialog.Title = @"Select a dummy file.";
 #pragma warning restore CA1303 // ローカライズされるパラメーターとしてリテラルを渡さない
         dialog.CreatePrompt = false;
         dialog.OverwritePrompt = true;
@@ -217,16 +217,16 @@ public partial class MainForm : Form
         var reporter = this._progressReporter;
         try
         {
-            reporter.ReportStarting("書き込み中です。しばらくお待ちください。");
+            reporter.ReportStarting("Writing. Please wait.");
             await this.CreateDummyFileAsync(reporter).ConfigureAwait(true);
-            await reporter.ReportCompletedAsync("書き込みが完了しました。").ConfigureAwait(true);
+            await reporter.ReportCompletedAsync("Writing has been completed.").ConfigureAwait(true);
         }
 #pragma warning disable CA1031 // 一般的な例外の種類はキャッチしません
         catch
 #pragma warning restore CA1031 // 一般的な例外の種類はキャッチしません
         {
             await reporter
-                .ReportFailedAsync("書き込み中に例外が発生しました。", MainForm.DelayTimeSpan)
+                .ReportFailedAsync("An exception occurred while writing.", MainForm.DelayTimeSpan)
                 .ConfigureAwait(true);
         }
         finally
